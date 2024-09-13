@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package products;
+
+option go_package = ".;proto";
+
+service Products {
+    rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
+    rpc GetOneProduct(GetOneProductRequest) returns (GetProductsResponse);
+    rpc PostProduct(PostProductRequest) returns (PostProductResponse);
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+    rpc PostOrder(PostOrderRequest) returns (PostOrderResponse);
+    rpc GetOrders(GetOrdersRequest) returns (GetOrdersResponse);
+    rpc GetSavedProducts(GetSavedProductsRequest) returns (GetSavedProductResponse);
+}
+
+message GetProductsRequest {
+    string ProductCategory = 1;
+}
+
+message Product {
+    int64 Id = 1;
+    string Name = 2;
+    int64 Amount = 3;
+    int64 Price = 4;
+    string Category = 5;
+    string Description = 6;
+}
+
+message GetProductsResponse {
+    repeated Product Products = 1;
+}
+
+message GetOneProductRequest {
+    int64 Id = 1;
+}
+
+message GetOneProductResponse {
+    Product Product = 1;
+}
+
+message PostProductRequest {
+    string Name = 1;
+    int64 Amount = 2;
+    int64 Price = 3;
+    string Category = 4;
+    string Description = 5;
+}
+
+message PostProductResponse {
+    int64 Id = 1;
+}
+
+message DeleteProductRequest {
+    int64 Id = 1;
+}
+
+message DeleteProductResponse {
+    string Status = 1;
+}
+
+message Order {
+    int64 Id = 1;
+    int64 ProductId = 2;
+    int64 UserId = 3;
+    int64 ProductPrice = 4;
+    string ProductName = 5;
+}
+
+message PostOrderRequest {
+    int64 ProductId = 2;
+    int64 UserId = 3;
+    int64 ProductPrice = 4;
+    string ProductName = 5;
+}
+
+message PostOrderResponse {
+    string Status = 1;
+}
+
+message GetOrdersRequest {
+    int64 UserID = 1;
+}
+
+message GetOrdersResponse {
+    repeated Order Orders = 1;
+}
+
+message GetSavedProductsRequest {
+    repeated int64 ProductsId = 1;
+}
+
+message GetSavedProductResponse {
+    repeated Product Products = 1;
+}
