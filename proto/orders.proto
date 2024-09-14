@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package orders;
+
+option go_package = ".;proto";
+
+service Orders {
+    rpc GetOrders(GetOrdersRequest) returns (GetOrdersResponse);
+}
+
+message Order {
+    int64 Id = 1;
+    int64 ProductId = 2;
+    int64 UserId = 3;
+    int64 ProductPrice = 4;
+    string ProductName = 5;
+}
+
+message GetOrdersRequest {
+    int64 UserId = 1;
+}
+
+message GetOrdersResponse {
+    repeated Order Orders = 1;
+}

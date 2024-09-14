@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package Saved;
+
+option go_package = ".;proto";
+
+service Saved {
+    rpc GetLiked(GetLikedRequest) returns (GetLikedResponse);
+    rpc PostLiked(PostLikedRequest) returns (PostLikedResponse);
+    rpc PutLiked(PutLikedRequest) returns (PutLikedResponse);
+    rpc PutCart(PutCartRequest) returns (PutCartResponse);
+    rpc PostCart(PostCartRequest) returns (PostCartResponse);
+    rpc GetCart(GetCartRequest) returns (GetCartResponse);
+}
+
+message SavedProduct {
+    int64 Id = 1;
+    int64 ProductId = 2;
+    string ProductName = 3;
+    int64 ProductPrice = 4;
+}
+
+message GetLikedRequest {
+    int64 UserId = 1;
+}
+
+message GetLikedResponse {
+    repeated SavedProduct Liked = 1;
+}
+
+message PostLikedRequest {
+    int64 UserId = 1;
+    int64 ProductId = 2;
+    string ProductName = 3;
+    int64 ProductPrice = 4;
+}
+
+message PostLikedResponse {
+    int64 Id = 1;
+}
+
+message PutLikedRequest {
+    int64 UserId = 1;
+}
+
+message PutLikedResponse {
+    string Status = 1;
+}
+
+
+message GetCartRequest {
+    int64 UserId = 1;
+}
+
+message GetCartResponse {
+    repeated SavedProduct Liked = 1;
+}
+
+message PostCartRequest {
+    int64 UserId = 1;
+    int64 ProductId = 2;
+    string ProductName = 3;
+    int64 ProductPrice = 4;
+}
+
+message PostCartResponse {
+    int64 Id = 1;
+}
+
+message PutCartRequest {
+    int64 UserId = 1;
+}
+
+message PutCartResponse {
+    string Status = 1;
+}

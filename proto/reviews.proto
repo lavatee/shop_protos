@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package reviews;
+
+option go_package = ".;proto";
+
+service Reviews {
+    rpc GetProductReviews(GetProductReviewsRequest) returns (GetProductsReviewResponse);
+    rpc PostReview(PostReviewRequest) returns (PostReviewResponse);
+    rpc DeleteReview(DeleteReviewRequest) returns (DeleteReviewResponse);
+}
+
+message Review {
+    int64 Id = 1;
+    string Text = 2;
+    int64 Evaluation = 3;
+}
+
+message GetProductReviewsRequest {
+    int64 ProductId = 1;
+}
+
+message GetProductsReviewResponse {
+    repeated Review Reviews = 1;
+}
+
+message PostReviewRequest {
+    string Text = 1;
+    int64 Evaluation = 2;
+}
+
+message PostReviewResponse {
+    int64 Id = 1;
+}
+
+message DeleteReviewRequest {
+    int64 Id = 1;
+}
+
+message DeleteReviewResponse {
+    string Status = 1;
+}
