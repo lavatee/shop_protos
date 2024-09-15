@@ -19,12 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Saved_GetLiked_FullMethodName  = "/Saved.Saved/GetLiked"
-	Saved_PostLiked_FullMethodName = "/Saved.Saved/PostLiked"
-	Saved_PutLiked_FullMethodName  = "/Saved.Saved/PutLiked"
-	Saved_PutCart_FullMethodName   = "/Saved.Saved/PutCart"
-	Saved_PostCart_FullMethodName  = "/Saved.Saved/PostCart"
-	Saved_GetCart_FullMethodName   = "/Saved.Saved/GetCart"
+	Saved_GetLiked_FullMethodName    = "/Saved.Saved/GetLiked"
+	Saved_PostLiked_FullMethodName   = "/Saved.Saved/PostLiked"
+	Saved_DeleteLiked_FullMethodName = "/Saved.Saved/DeleteLiked"
+	Saved_DeleteCart_FullMethodName  = "/Saved.Saved/DeleteCart"
+	Saved_PostCart_FullMethodName    = "/Saved.Saved/PostCart"
+	Saved_GetCart_FullMethodName     = "/Saved.Saved/GetCart"
 )
 
 // SavedClient is the client API for Saved service.
@@ -33,8 +33,8 @@ const (
 type SavedClient interface {
 	GetLiked(ctx context.Context, in *GetLikedRequest, opts ...grpc.CallOption) (*GetLikedResponse, error)
 	PostLiked(ctx context.Context, in *PostLikedRequest, opts ...grpc.CallOption) (*PostLikedResponse, error)
-	PutLiked(ctx context.Context, in *PutLikedRequest, opts ...grpc.CallOption) (*PutLikedResponse, error)
-	PutCart(ctx context.Context, in *PutCartRequest, opts ...grpc.CallOption) (*PutCartResponse, error)
+	DeleteLiked(ctx context.Context, in *DeleteLikedRequest, opts ...grpc.CallOption) (*DeleteLikedResponse, error)
+	DeleteCart(ctx context.Context, in *DeleteCartRequest, opts ...grpc.CallOption) (*DeleteCartResponse, error)
 	PostCart(ctx context.Context, in *PostCartRequest, opts ...grpc.CallOption) (*PostCartResponse, error)
 	GetCart(ctx context.Context, in *GetCartRequest, opts ...grpc.CallOption) (*GetCartResponse, error)
 }
@@ -67,20 +67,20 @@ func (c *savedClient) PostLiked(ctx context.Context, in *PostLikedRequest, opts 
 	return out, nil
 }
 
-func (c *savedClient) PutLiked(ctx context.Context, in *PutLikedRequest, opts ...grpc.CallOption) (*PutLikedResponse, error) {
+func (c *savedClient) DeleteLiked(ctx context.Context, in *DeleteLikedRequest, opts ...grpc.CallOption) (*DeleteLikedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PutLikedResponse)
-	err := c.cc.Invoke(ctx, Saved_PutLiked_FullMethodName, in, out, cOpts...)
+	out := new(DeleteLikedResponse)
+	err := c.cc.Invoke(ctx, Saved_DeleteLiked_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *savedClient) PutCart(ctx context.Context, in *PutCartRequest, opts ...grpc.CallOption) (*PutCartResponse, error) {
+func (c *savedClient) DeleteCart(ctx context.Context, in *DeleteCartRequest, opts ...grpc.CallOption) (*DeleteCartResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PutCartResponse)
-	err := c.cc.Invoke(ctx, Saved_PutCart_FullMethodName, in, out, cOpts...)
+	out := new(DeleteCartResponse)
+	err := c.cc.Invoke(ctx, Saved_DeleteCart_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -113,8 +113,8 @@ func (c *savedClient) GetCart(ctx context.Context, in *GetCartRequest, opts ...g
 type SavedServer interface {
 	GetLiked(context.Context, *GetLikedRequest) (*GetLikedResponse, error)
 	PostLiked(context.Context, *PostLikedRequest) (*PostLikedResponse, error)
-	PutLiked(context.Context, *PutLikedRequest) (*PutLikedResponse, error)
-	PutCart(context.Context, *PutCartRequest) (*PutCartResponse, error)
+	DeleteLiked(context.Context, *DeleteLikedRequest) (*DeleteLikedResponse, error)
+	DeleteCart(context.Context, *DeleteCartRequest) (*DeleteCartResponse, error)
 	PostCart(context.Context, *PostCartRequest) (*PostCartResponse, error)
 	GetCart(context.Context, *GetCartRequest) (*GetCartResponse, error)
 	mustEmbedUnimplementedSavedServer()
@@ -133,11 +133,11 @@ func (UnimplementedSavedServer) GetLiked(context.Context, *GetLikedRequest) (*Ge
 func (UnimplementedSavedServer) PostLiked(context.Context, *PostLikedRequest) (*PostLikedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostLiked not implemented")
 }
-func (UnimplementedSavedServer) PutLiked(context.Context, *PutLikedRequest) (*PutLikedResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PutLiked not implemented")
+func (UnimplementedSavedServer) DeleteLiked(context.Context, *DeleteLikedRequest) (*DeleteLikedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLiked not implemented")
 }
-func (UnimplementedSavedServer) PutCart(context.Context, *PutCartRequest) (*PutCartResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PutCart not implemented")
+func (UnimplementedSavedServer) DeleteCart(context.Context, *DeleteCartRequest) (*DeleteCartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCart not implemented")
 }
 func (UnimplementedSavedServer) PostCart(context.Context, *PostCartRequest) (*PostCartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostCart not implemented")
@@ -202,38 +202,38 @@ func _Saved_PostLiked_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Saved_PutLiked_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PutLikedRequest)
+func _Saved_DeleteLiked_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLikedRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavedServer).PutLiked(ctx, in)
+		return srv.(SavedServer).DeleteLiked(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Saved_PutLiked_FullMethodName,
+		FullMethod: Saved_DeleteLiked_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavedServer).PutLiked(ctx, req.(*PutLikedRequest))
+		return srv.(SavedServer).DeleteLiked(ctx, req.(*DeleteLikedRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Saved_PutCart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PutCartRequest)
+func _Saved_DeleteCart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCartRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavedServer).PutCart(ctx, in)
+		return srv.(SavedServer).DeleteCart(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Saved_PutCart_FullMethodName,
+		FullMethod: Saved_DeleteCart_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavedServer).PutCart(ctx, req.(*PutCartRequest))
+		return srv.(SavedServer).DeleteCart(ctx, req.(*DeleteCartRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -290,12 +290,12 @@ var Saved_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Saved_PostLiked_Handler,
 		},
 		{
-			MethodName: "PutLiked",
-			Handler:    _Saved_PutLiked_Handler,
+			MethodName: "DeleteLiked",
+			Handler:    _Saved_DeleteLiked_Handler,
 		},
 		{
-			MethodName: "PutCart",
-			Handler:    _Saved_PutCart_Handler,
+			MethodName: "DeleteCart",
+			Handler:    _Saved_DeleteCart_Handler,
 		},
 		{
 			MethodName: "PostCart",

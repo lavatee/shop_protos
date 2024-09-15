@@ -14,6 +14,8 @@ message Review {
     int64 Id = 1;
     string Text = 2;
     int64 Evaluation = 3;
+    int64 ProductId = 4;
+    int64 UserId = 5;
 }
 
 message GetProductReviewsRequest {
@@ -27,6 +29,8 @@ message GetProductsReviewResponse {
 message PostReviewRequest {
     string Text = 1;
     int64 Evaluation = 2;
+    int64 ProductId = 3;
+    int64 UserId = 4;
 }
 
 message PostReviewResponse {

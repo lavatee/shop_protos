@@ -7,8 +7,8 @@ option go_package = ".;proto";
 service Saved {
     rpc GetLiked(GetLikedRequest) returns (GetLikedResponse);
     rpc PostLiked(PostLikedRequest) returns (PostLikedResponse);
-    rpc PutLiked(PutLikedRequest) returns (PutLikedResponse);
-    rpc PutCart(PutCartRequest) returns (PutCartResponse);
+    rpc DeleteLiked(DeleteLikedRequest) returns (DeleteLikedResponse);
+    rpc DeleteCart(DeleteCartRequest) returns (DeleteCartResponse);
     rpc PostCart(PostCartRequest) returns (PostCartResponse);
     rpc GetCart(GetCartRequest) returns (GetCartResponse);
 }
@@ -39,11 +39,11 @@ message PostLikedResponse {
     int64 Id = 1;
 }
 
-message PutLikedRequest {
+message DeleteLikedRequest {
     int64 UserId = 1;
 }
 
-message PutLikedResponse {
+message DeleteLikedResponse {
     string Status = 1;
 }
 
@@ -67,10 +67,10 @@ message PostCartResponse {
     int64 Id = 1;
 }
 
-message PutCartRequest {
+message DeleteCartRequest {
     int64 UserId = 1;
 }
 
-message PutCartResponse {
+message DeleteCartResponse {
     string Status = 1;
 }
