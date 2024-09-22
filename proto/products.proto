@@ -11,6 +11,7 @@ service Products {
     rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
     rpc PostOrder(PostOrderRequest) returns (PostOrderResponse);
     rpc GetSavedProducts(GetSavedProductsRequest) returns (GetSavedProductResponse);
+    rpc GetUserProducts(GetUserProductsRequest) returns (GetUserProductsResponse);
 }
 
 message GetProductsRequest {
@@ -24,6 +25,7 @@ message Product {
     int64 Price = 4;
     string Category = 5;
     string Description = 6;
+    int64 UserId = 7;
 }
 
 message GetProductsResponse {
@@ -44,6 +46,7 @@ message PostProductRequest {
     int64 Price = 3;
     string Category = 4;
     string Description = 5;
+    int64 UserId = 6;
 }
 
 message PostProductResponse {
@@ -58,7 +61,13 @@ message DeleteProductResponse {
     string Status = 1;
 }
 
+message GetUserProductsRequest {
+    int64 UserId = 1;
+}
 
+message GetUserProductsResponse {
+    repeated Product Products = 1;
+}
 
 message PostOrderRequest {
     int64 ProductId = 1;
