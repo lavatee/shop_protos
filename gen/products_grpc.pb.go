@@ -23,7 +23,6 @@ const (
 	Products_GetOneProduct_FullMethodName    = "/products.Products/GetOneProduct"
 	Products_PostProduct_FullMethodName      = "/products.Products/PostProduct"
 	Products_DeleteProduct_FullMethodName    = "/products.Products/DeleteProduct"
-	Products_PostOrder_FullMethodName        = "/products.Products/PostOrder"
 	Products_GetSavedProducts_FullMethodName = "/products.Products/GetSavedProducts"
 	Products_GetUserProducts_FullMethodName  = "/products.Products/GetUserProducts"
 )
@@ -36,7 +35,6 @@ type ProductsClient interface {
 	GetOneProduct(ctx context.Context, in *GetOneProductRequest, opts ...grpc.CallOption) (*GetProductsResponse, error)
 	PostProduct(ctx context.Context, in *PostProductRequest, opts ...grpc.CallOption) (*PostProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
-	PostOrder(ctx context.Context, in *PostOrderRequest, opts ...grpc.CallOption) (*PostOrderResponse, error)
 	GetSavedProducts(ctx context.Context, in *GetSavedProductsRequest, opts ...grpc.CallOption) (*GetSavedProductResponse, error)
 	GetUserProducts(ctx context.Context, in *GetUserProductsRequest, opts ...grpc.CallOption) (*GetUserProductsResponse, error)
 }
@@ -89,16 +87,6 @@ func (c *productsClient) DeleteProduct(ctx context.Context, in *DeleteProductReq
 	return out, nil
 }
 
-func (c *productsClient) PostOrder(ctx context.Context, in *PostOrderRequest, opts ...grpc.CallOption) (*PostOrderResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PostOrderResponse)
-	err := c.cc.Invoke(ctx, Products_PostOrder_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *productsClient) GetSavedProducts(ctx context.Context, in *GetSavedProductsRequest, opts ...grpc.CallOption) (*GetSavedProductResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetSavedProductResponse)
@@ -127,7 +115,6 @@ type ProductsServer interface {
 	GetOneProduct(context.Context, *GetOneProductRequest) (*GetProductsResponse, error)
 	PostProduct(context.Context, *PostProductRequest) (*PostProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
-	PostOrder(context.Context, *PostOrderRequest) (*PostOrderResponse, error)
 	GetSavedProducts(context.Context, *GetSavedProductsRequest) (*GetSavedProductResponse, error)
 	GetUserProducts(context.Context, *GetUserProductsRequest) (*GetUserProductsResponse, error)
 	mustEmbedUnimplementedProductsServer()
@@ -151,9 +138,6 @@ func (UnimplementedProductsServer) PostProduct(context.Context, *PostProductRequ
 }
 func (UnimplementedProductsServer) DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteProduct not implemented")
-}
-func (UnimplementedProductsServer) PostOrder(context.Context, *PostOrderRequest) (*PostOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PostOrder not implemented")
 }
 func (UnimplementedProductsServer) GetSavedProducts(context.Context, *GetSavedProductsRequest) (*GetSavedProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSavedProducts not implemented")
@@ -254,24 +238,6 @@ func _Products_DeleteProduct_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Products_PostOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PostOrderRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProductsServer).PostOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Products_PostOrder_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductsServer).PostOrder(ctx, req.(*PostOrderRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Products_GetSavedProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSavedProductsRequest)
 	if err := dec(in); err != nil {
@@ -330,10 +296,6 @@ var Products_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteProduct",
 			Handler:    _Products_DeleteProduct_Handler,
-		},
-		{
-			MethodName: "PostOrder",
-			Handler:    _Products_PostOrder_Handler,
 		},
 		{
 			MethodName: "GetSavedProducts",

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package cart;
+
+option go_package = ".;proto";
+
+service Cart {
+    rpc DeleteCart(DeleteCartRequest) returns (DeleteCartResponse);
+    rpc PostCart(PostCartRequest) returns (PostCartResponse);
+    rpc GetCart(GetCartRequest) returns (GetCartResponse);
+}
+
+
+message GetCartRequest {
+    int64 UserId = 1;
+}
+
+message GetCartResponse {
+    repeated int64 Cart = 1;
+}
+
+message PostCartRequest {
+    int64 UserId = 1;
+    int64 ProductId = 2;
+}
+
+message PostCartResponse {
+    string Status = 1;
+}
+
+message DeleteCartRequest {
+    int64 UserId = 1;
+    int64 ProductId = 2;
+}
+
+message DeleteCartResponse {
+    string Status = 1;
+}

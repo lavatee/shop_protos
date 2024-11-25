@@ -12,7 +12,7 @@ message Order {
     int64 Id = 1;
     int64 ProductId = 2;
     int64 UserId = 3;
-    int64 ProductPrice = 4;
+    int64 Price = 4;
     string ProductName = 5;
 }
 

@@ -8,6 +8,7 @@ service Reviews {
     rpc GetProductReviews(GetProductReviewsRequest) returns (GetProductsReviewResponse);
     rpc PostReview(PostReviewRequest) returns (PostReviewResponse);
     rpc DeleteReview(DeleteReviewRequest) returns (DeleteReviewResponse);
+    rpc DeleteProductReviews(DeleteProductReviewsRequest) returns (DeleteProductReviewsResponse);
 }
 
 message Review {
@@ -42,5 +43,13 @@ message DeleteReviewRequest {
 }
 
 message DeleteReviewResponse {
+    string Status = 1;
+}
+
+message DeleteProductReviewsRequest {
+    int64 ProductId = 1;
+}
+
+message DeleteProductReviewsResponse {
     string Status = 1;
 }

@@ -1,19 +1,15 @@
 syntax = "proto3";
 
-package Saved;
+package liked;
 
 option go_package = ".;proto";
 
-service Saved {
+service Liked {
     rpc GetLiked(GetLikedRequest) returns (GetLikedResponse);
     rpc PostLiked(PostLikedRequest) returns (PostLikedResponse);
     rpc DeleteLiked(DeleteLikedRequest) returns (DeleteLikedResponse);
-    rpc DeleteCart(DeleteCartRequest) returns (DeleteCartResponse);
-    rpc PostCart(PostCartRequest) returns (PostCartResponse);
-    rpc GetCart(GetCartRequest) returns (GetCartResponse);
+    rpc DeleteProductLiked(DeleteProductLikedRequest) returns (DeleteProductLikedResponse);
 }
-
-
 
 message GetLikedRequest {
     int64 UserId = 1;
@@ -41,29 +37,9 @@ message DeleteLikedResponse {
     string Status = 1;
 }
 
-
-message GetCartRequest {
-    int64 UserId = 1;
+message DeleteProductLikedRequest {
+    int64 ProductId = 1;
 }
-
-message GetCartResponse {
-    repeated int64 Cart = 1;
-}
-
-message PostCartRequest {
-    int64 UserId = 1;
-    int64 ProductId = 2;
-}
-
-message PostCartResponse {
-    string Status = 1;
-}
-
-message DeleteCartRequest {
-    int64 UserId = 1;
-    int64 ProductId = 2;
-}
-
-message DeleteCartResponse {
+message DeleteProductLikedResponse {
     string Status = 1;
 }

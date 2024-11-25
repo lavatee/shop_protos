@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Reviews_GetProductReviews_FullMethodName = "/reviews.Reviews/GetProductReviews"
-	Reviews_PostReview_FullMethodName        = "/reviews.Reviews/PostReview"
-	Reviews_DeleteReview_FullMethodName      = "/reviews.Reviews/DeleteReview"
+	Reviews_GetProductReviews_FullMethodName    = "/reviews.Reviews/GetProductReviews"
+	Reviews_PostReview_FullMethodName           = "/reviews.Reviews/PostReview"
+	Reviews_DeleteReview_FullMethodName         = "/reviews.Reviews/DeleteReview"
+	Reviews_DeleteProductReviews_FullMethodName = "/reviews.Reviews/DeleteProductReviews"
 )
 
 // ReviewsClient is the client API for Reviews service.
@@ -31,6 +32,7 @@ type ReviewsClient interface {
 	GetProductReviews(ctx context.Context, in *GetProductReviewsRequest, opts ...grpc.CallOption) (*GetProductsReviewResponse, error)
 	PostReview(ctx context.Context, in *PostReviewRequest, opts ...grpc.CallOption) (*PostReviewResponse, error)
 	DeleteReview(ctx context.Context, in *DeleteReviewRequest, opts ...grpc.CallOption) (*DeleteReviewResponse, error)
+	DeleteProductReviews(ctx context.Context, in *DeleteProductReviewsRequest, opts ...grpc.CallOption) (*DeleteProductReviewsResponse, error)
 }
 
 type reviewsClient struct {
@@ -71,6 +73,16 @@ func (c *reviewsClient) DeleteReview(ctx context.Context, in *DeleteReviewReques
 	return out, nil
 }
 
+func (c *reviewsClient) DeleteProductReviews(ctx context.Context, in *DeleteProductReviewsRequest, opts ...grpc.CallOption) (*DeleteProductReviewsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductReviewsResponse)
+	err := c.cc.Invoke(ctx, Reviews_DeleteProductReviews_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReviewsServer is the server API for Reviews service.
 // All implementations must embed UnimplementedReviewsServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type ReviewsServer interface {
 	GetProductReviews(context.Context, *GetProductReviewsRequest) (*GetProductsReviewResponse, error)
 	PostReview(context.Context, *PostReviewRequest) (*PostReviewResponse, error)
 	DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error)
+	DeleteProductReviews(context.Context, *DeleteProductReviewsRequest) (*DeleteProductReviewsResponse, error)
 	mustEmbedUnimplementedReviewsServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedReviewsServer) PostReview(context.Context, *PostReviewRequest
 }
 func (UnimplementedReviewsServer) DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteReview not implemented")
+}
+func (UnimplementedReviewsServer) DeleteProductReviews(context.Context, *DeleteProductReviewsRequest) (*DeleteProductReviewsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProductReviews not implemented")
 }
 func (UnimplementedReviewsServer) mustEmbedUnimplementedReviewsServer() {}
 func (UnimplementedReviewsServer) testEmbeddedByValue()                 {}
@@ -172,6 +188,24 @@ func _Reviews_DeleteReview_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Reviews_DeleteProductReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductReviewsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewsServer).DeleteProductReviews(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Reviews_DeleteProductReviews_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewsServer).DeleteProductReviews(ctx, req.(*DeleteProductReviewsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Reviews_ServiceDesc is the grpc.ServiceDesc for Reviews service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var Reviews_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteReview",
 			Handler:    _Reviews_DeleteReview_Handler,
+		},
+		{
+			MethodName: "DeleteProductReviews",
+			Handler:    _Reviews_DeleteProductReviews_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
