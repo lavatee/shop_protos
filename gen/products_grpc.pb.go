@@ -32,7 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductsClient interface {
 	GetProducts(ctx context.Context, in *GetProductsRequest, opts ...grpc.CallOption) (*GetProductsResponse, error)
-	GetOneProduct(ctx context.Context, in *GetOneProductRequest, opts ...grpc.CallOption) (*GetProductsResponse, error)
+	GetOneProduct(ctx context.Context, in *GetOneProductRequest, opts ...grpc.CallOption) (*GetOneProductResponse, error)
 	PostProduct(ctx context.Context, in *PostProductRequest, opts ...grpc.CallOption) (*PostProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 	GetSavedProducts(ctx context.Context, in *GetSavedProductsRequest, opts ...grpc.CallOption) (*GetSavedProductResponse, error)
@@ -57,9 +57,9 @@ func (c *productsClient) GetProducts(ctx context.Context, in *GetProductsRequest
 	return out, nil
 }
 
-func (c *productsClient) GetOneProduct(ctx context.Context, in *GetOneProductRequest, opts ...grpc.CallOption) (*GetProductsResponse, error) {
+func (c *productsClient) GetOneProduct(ctx context.Context, in *GetOneProductRequest, opts ...grpc.CallOption) (*GetOneProductResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetProductsResponse)
+	out := new(GetOneProductResponse)
 	err := c.cc.Invoke(ctx, Products_GetOneProduct_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (c *productsClient) GetUserProducts(ctx context.Context, in *GetUserProduct
 // for forward compatibility.
 type ProductsServer interface {
 	GetProducts(context.Context, *GetProductsRequest) (*GetProductsResponse, error)
-	GetOneProduct(context.Context, *GetOneProductRequest) (*GetProductsResponse, error)
+	GetOneProduct(context.Context, *GetOneProductRequest) (*GetOneProductResponse, error)
 	PostProduct(context.Context, *PostProductRequest) (*PostProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	GetSavedProducts(context.Context, *GetSavedProductsRequest) (*GetSavedProductResponse, error)
@@ -130,7 +130,7 @@ type UnimplementedProductsServer struct{}
 func (UnimplementedProductsServer) GetProducts(context.Context, *GetProductsRequest) (*GetProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProducts not implemented")
 }
-func (UnimplementedProductsServer) GetOneProduct(context.Context, *GetOneProductRequest) (*GetProductsResponse, error) {
+func (UnimplementedProductsServer) GetOneProduct(context.Context, *GetOneProductRequest) (*GetOneProductResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneProduct not implemented")
 }
 func (UnimplementedProductsServer) PostProduct(context.Context, *PostProductRequest) (*PostProductResponse, error) {

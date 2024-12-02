@@ -6,7 +6,7 @@ option go_package = ".;proto";
 
 service Products {
     rpc GetProducts(GetProductsRequest) returns (GetProductsResponse);
-    rpc GetOneProduct(GetOneProductRequest) returns (GetProductsResponse);
+    rpc GetOneProduct(GetOneProductRequest) returns (GetOneProductResponse);
     rpc PostProduct(PostProductRequest) returns (PostProductResponse);
     rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
     rpc GetSavedProducts(GetSavedProductsRequest) returns (GetSavedProductResponse);
