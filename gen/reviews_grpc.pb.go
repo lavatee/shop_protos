@@ -22,7 +22,7 @@ const (
 	Reviews_GetProductReviews_FullMethodName    = "/reviews.Reviews/GetProductReviews"
 	Reviews_PostReview_FullMethodName           = "/reviews.Reviews/PostReview"
 	Reviews_DeleteReview_FullMethodName         = "/reviews.Reviews/DeleteReview"
-	Reviews_DeleteProductReviews_FullMethodName = "/reviews.Reviews/DeleteProductReviews"
+	Reviews_GetAverageEvaluation_FullMethodName = "/reviews.Reviews/GetAverageEvaluation"
 )
 
 // ReviewsClient is the client API for Reviews service.
@@ -32,7 +32,7 @@ type ReviewsClient interface {
 	GetProductReviews(ctx context.Context, in *GetProductReviewsRequest, opts ...grpc.CallOption) (*GetProductsReviewResponse, error)
 	PostReview(ctx context.Context, in *PostReviewRequest, opts ...grpc.CallOption) (*PostReviewResponse, error)
 	DeleteReview(ctx context.Context, in *DeleteReviewRequest, opts ...grpc.CallOption) (*DeleteReviewResponse, error)
-	DeleteProductReviews(ctx context.Context, in *DeleteProductReviewsRequest, opts ...grpc.CallOption) (*DeleteProductReviewsResponse, error)
+	GetAverageEvaluation(ctx context.Context, in *GetAverageEvaluationRequest, opts ...grpc.CallOption) (*GetAverageEvaluationResponse, error)
 }
 
 type reviewsClient struct {
@@ -73,10 +73,10 @@ func (c *reviewsClient) DeleteReview(ctx context.Context, in *DeleteReviewReques
 	return out, nil
 }
 
-func (c *reviewsClient) DeleteProductReviews(ctx context.Context, in *DeleteProductReviewsRequest, opts ...grpc.CallOption) (*DeleteProductReviewsResponse, error) {
+func (c *reviewsClient) GetAverageEvaluation(ctx context.Context, in *GetAverageEvaluationRequest, opts ...grpc.CallOption) (*GetAverageEvaluationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteProductReviewsResponse)
-	err := c.cc.Invoke(ctx, Reviews_DeleteProductReviews_FullMethodName, in, out, cOpts...)
+	out := new(GetAverageEvaluationResponse)
+	err := c.cc.Invoke(ctx, Reviews_GetAverageEvaluation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ type ReviewsServer interface {
 	GetProductReviews(context.Context, *GetProductReviewsRequest) (*GetProductsReviewResponse, error)
 	PostReview(context.Context, *PostReviewRequest) (*PostReviewResponse, error)
 	DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error)
-	DeleteProductReviews(context.Context, *DeleteProductReviewsRequest) (*DeleteProductReviewsResponse, error)
+	GetAverageEvaluation(context.Context, *GetAverageEvaluationRequest) (*GetAverageEvaluationResponse, error)
 	mustEmbedUnimplementedReviewsServer()
 }
 
@@ -110,8 +110,8 @@ func (UnimplementedReviewsServer) PostReview(context.Context, *PostReviewRequest
 func (UnimplementedReviewsServer) DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteReview not implemented")
 }
-func (UnimplementedReviewsServer) DeleteProductReviews(context.Context, *DeleteProductReviewsRequest) (*DeleteProductReviewsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProductReviews not implemented")
+func (UnimplementedReviewsServer) GetAverageEvaluation(context.Context, *GetAverageEvaluationRequest) (*GetAverageEvaluationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAverageEvaluation not implemented")
 }
 func (UnimplementedReviewsServer) mustEmbedUnimplementedReviewsServer() {}
 func (UnimplementedReviewsServer) testEmbeddedByValue()                 {}
@@ -188,20 +188,20 @@ func _Reviews_DeleteReview_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Reviews_DeleteProductReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteProductReviewsRequest)
+func _Reviews_GetAverageEvaluation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAverageEvaluationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ReviewsServer).DeleteProductReviews(ctx, in)
+		return srv.(ReviewsServer).GetAverageEvaluation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Reviews_DeleteProductReviews_FullMethodName,
+		FullMethod: Reviews_GetAverageEvaluation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReviewsServer).DeleteProductReviews(ctx, req.(*DeleteProductReviewsRequest))
+		return srv.(ReviewsServer).GetAverageEvaluation(ctx, req.(*GetAverageEvaluationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -226,8 +226,8 @@ var Reviews_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Reviews_DeleteReview_Handler,
 		},
 		{
-			MethodName: "DeleteProductReviews",
-			Handler:    _Reviews_DeleteProductReviews_Handler,
+			MethodName: "GetAverageEvaluation",
+			Handler:    _Reviews_GetAverageEvaluation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
