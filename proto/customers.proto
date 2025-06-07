@@ -23,6 +23,7 @@ message GetCartResponse {
 message PostCartRequest {
     int64 UserId = 1;
     int64 ProductId = 2;
+    int64 Amount = 3;
 }
 
 message PostCartResponse {
