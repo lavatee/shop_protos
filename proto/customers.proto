@@ -4,10 +4,11 @@ package cart;
 
 option go_package = ".;proto";
 
-service Cart {
-    rpc DeleteCart(DeleteCartRequest) returns (DeleteCartResponse);
-    rpc PostCart(PostCartRequest) returns (PostCartResponse);
+service Customers {
+    rpc DeleteFromCart(DeleteCartRequest) returns (DeleteCartResponse);
+    rpc PostToCart(PostCartRequest) returns (PostCartResponse);
     rpc GetCart(GetCartRequest) returns (GetCartResponse);
+    rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse);
 }
 
 
@@ -35,4 +36,12 @@ message DeleteCartRequest {
 
 message DeleteCartResponse {
     string Status = 1;
+}
+
+message GetUserBalanceRequest {
+    int64 UserId = 1;
+}
+
+message GetUserBalanceResponse {
+    int64 Balance = 1;
 }
