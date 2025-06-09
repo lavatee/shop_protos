@@ -8,12 +8,16 @@ service Orders {
     rpc GetOrders(GetOrdersRequest) returns (GetOrdersResponse);
 }
 
+message OrderedProduct {
+    int64 ProductId = 1;
+    int64 ProductPrice = 2;
+}
+
 message Order {
     int64 Id = 1;
-    int64 ProductId = 2;
-    int64 UserId = 3;
-    int64 Price = 4;
-    string ProductName = 5;
+    int64 UserId = 2;
+    int64 Price = 3;
+    repeated OrderedProduct Products = 4;
 }
 
 message GetOrdersRequest {
